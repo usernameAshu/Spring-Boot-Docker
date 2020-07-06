@@ -1,0 +1,23 @@
+version: "3"
+services:
+  mysql-service:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=testdb
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=root
+    restart: always
+
+  user-springboot-service:
+    image: user-springboot-image
+    container_name: user-springboot-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mysql-service
+    restart: always
